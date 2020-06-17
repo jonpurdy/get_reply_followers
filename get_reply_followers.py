@@ -9,17 +9,22 @@ access_token_secret = 'YOUR_ACCESS_TOKEN_SECRET'
 
 # Bounds of the range of Tweets you want to pull
 # (So you don't pull your entire timeline)
-since_id = "0"  # Oldest
+# since_id = "1267829476102033414"  # Oldest
+# max_id = "1267871539501731841"    # Newest
 
 # Tweepy OAuth process + API creation
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
-replied_tweets = [] # Holds the stuff we will output
+# Holds the stuff we will output
+# First list is for header row
+replied_tweets = [["tweet_id", "aggregate_followers"]] 
 
 # Get tweets
-for status in tweepy.Cursor(api.user_timeline, since_id=since_id).items():
+for status in tweepy.Cursor(api.user_timeline).items():
+# Use below instead if you want to bound your Tweets using since_id and max_id
+# for status in tweepy.Cursor(api.user_timeline, since_id=since_id, max_id=max_id).items():
     print("---\n%s\n%s" % (status.id, status.text))
 
     # Determine if it's a reply
